@@ -9,7 +9,7 @@
 
 namespace ZendTest\Validator;
 
-use Zend\Validator;
+use Zend\Validator\Uri;
 use Zend\Uri\Exception\InvalidArgumentException;
 
 /**
@@ -29,7 +29,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->validator = new Validator\Uri();
+        $this->validator = new Uri();
     }
 
     public function testHasDefaultSettingsAndLazyLoadsUriHandler()
@@ -44,7 +44,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
     public function testConstructorWithArraySetsOptions()
     {
         $uriMock = $this->getMock('Zend\Uri\Uri');
-        $validator = new Validator\Uri([
+        $validator = new Uri([
             'uriHandler' => $uriMock,
             'allowRelative' => false,
             'allowAbsolute' => false,
@@ -57,7 +57,21 @@ class UriTest extends \PHPUnit_Framework_TestCase
     public function testConstructorWithArgsSetsOptions()
     {
         $uriMock = $this->getMock('Zend\Uri\Uri');
-        $validator = new Validator\Uri($uriMock, false, false);
+        $validator = new Uri($uriMock, false, false);
+        $this->assertEquals($uriMock, $validator->getUriHandler());
+        $this->assertFalse($validator->getAllowRelative());
+        $this->assertFalse($validator->getAllowAbsolute());
+    }
+
+    public function testConstructWithTraversableSetsOptions()
+    {
+        $uriMock = $this->getMock('Zend\Uri\Uri');
+        $options = new \ArrayObject([
+            'uriHandler' => $uriMock,
+            'allowRelative' => false,
+            'allowAbsolute' => false,
+        ]);
+        $validator = new Uri($options);
         $this->assertEquals($uriMock, $validator->getUriHandler());
         $this->assertFalse($validator->getAllowRelative());
         $this->assertFalse($validator->getAllowAbsolute());
@@ -180,4 +194,6 @@ class UriTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->validator->isValid($value));
     }
+
+
 }
