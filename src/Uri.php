@@ -91,10 +91,6 @@ class Uri extends AbstractValidator
             $this->uriHandler = new $this->uriHandler;
         }
 
-        if (! $this->uriHandler instanceof UriHandler) {
-            throw new InvalidArgumentException('URI handler is expected to be a Zend\Uri\Uri object');
-        }
-
         return $this->uriHandler;
     }
 
