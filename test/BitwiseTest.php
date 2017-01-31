@@ -45,7 +45,7 @@ class BitwiseTest extends \PHPUnit_Framework_TestCase
      * @param array $args
      * @param array $options
      */
-    public function testConstructWithTravesableOptions(array $args, array $options)
+    public function testConstructWithTraversableOptions(array $args, array $options)
     {
         $validator = new Bitwise(
             new \ArrayObject($args)

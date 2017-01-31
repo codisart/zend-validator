@@ -140,7 +140,7 @@ class BetweenTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($validator->getInclusive());
     }
 
-    public function testConstructWithTravesableOptions()
+    public function testConstructWithTraversableOptions()
     {
         $options = new \ArrayObject(['min' => 1, 'max' => 10, 'inclusive' => false]);
         $validator = new Between($options);
