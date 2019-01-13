@@ -17,7 +17,7 @@ define('ZF2_HOSTNAME_VALIDATOR_FILE', __DIR__.'/../src/Hostname.php');
 
 
 if (! file_exists(ZF2_HOSTNAME_VALIDATOR_FILE) || ! is_readable(ZF2_HOSTNAME_VALIDATOR_FILE)) {
-    printf("Error: cannont read file '%s'%s", ZF2_HOSTNAME_VALIDATOR_FILE, PHP_EOL);
+    printf("Error: Cannot read file '%s'%s", ZF2_HOSTNAME_VALIDATOR_FILE, PHP_EOL);
     exit(1);
 }
 

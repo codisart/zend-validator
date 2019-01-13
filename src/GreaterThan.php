@@ -63,19 +63,10 @@ class GreaterThan extends AbstractValidator
             $options = ArrayUtils::iteratorToArray($options);
         }
         if (! is_array($options)) {
-            $options = func_get_args();
-            $temp['min'] = array_shift($options);
-
-            if (! empty($options)) {
-                $temp['inclusive'] = array_shift($options);
-            }
-
-            $options = $temp;
+            $options = $this->setOptions(...func_get_args());
         }
 
-        if (! array_key_exists('min', $options)) {
-            throw new Exception\InvalidArgumentException("Missing option 'min'");
-        }
+        $this->shouldHaveAMinValue($options);
 
         if (! array_key_exists('inclusive', $options)) {
             $options['inclusive'] = false;
@@ -85,6 +76,21 @@ class GreaterThan extends AbstractValidator
              ->setInclusive($options['inclusive']);
 
         parent::__construct($options);
+    }
+
+    private function setOptions($min = null, $inclusive = false)
+    {
+        return [
+            'min' => $min,
+            'inclusive' => $inclusive,
+        ];
+    }
+
+    private function shouldHaveAMinValue(array $options)
+    {
+        if (! array_key_exists('min', $options)) {
+            throw new Exception\InvalidArgumentException("Missing option 'min'");
+        }
     }
 
     /**

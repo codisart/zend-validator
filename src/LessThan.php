@@ -65,28 +65,30 @@ class LessThan extends AbstractValidator
             $options = ArrayUtils::iteratorToArray($options);
         }
         if (! is_array($options)) {
-            $options = func_get_args();
-            $temp['max'] = array_shift($options);
-
-            if (! empty($options)) {
-                $temp['inclusive'] = array_shift($options);
-            }
-
-            $options = $temp;
+            $options = $this->setOptions(...func_get_args())
         }
 
+        $this->shouldHaveAMaxValue($options);
+
+        $this->setMax($options['max']);
+        $this->setInclusive($options['inclusive']);
+
+        parent::__construct($options);
+    }
+
+    private function setOptions($max = null, $inclusive = false)
+    {
+        return [
+            'max' => $max,
+            'inclusive' => $inclusive,
+        ];
+    }
+
+    private function shouldHaveAMaxValue(array $options)
+    {
         if (! array_key_exists('max', $options)) {
             throw new Exception\InvalidArgumentException("Missing option 'max'");
         }
-
-        if (! array_key_exists('inclusive', $options)) {
-            $options['inclusive'] = false;
-        }
-
-        $this->setMax($options['max'])
-             ->setInclusive($options['inclusive']);
-
-        parent::__construct($options);
     }
 
     /**
@@ -149,13 +151,13 @@ class LessThan extends AbstractValidator
                 $this->error(self::NOT_LESS_INCLUSIVE);
                 return false;
             }
-        } else {
-            if ($value >= $this->max) {
-                $this->error(self::NOT_LESS);
-                return false;
-            }
+            return true;
         }
 
+        if ($value >= $this->max) {
+            $this->error(self::NOT_LESS);
+            return false;
+        }
         return true;
     }
 }

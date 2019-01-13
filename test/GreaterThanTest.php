@@ -135,4 +135,10 @@ class GreaterThanTest extends TestCase
         $validator = new GreaterThan(10, true);
         $this->assertTrue($validator->getInclusive());
     }
+
+    public function testNoMinValueShouldRaiseExecption()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Missing option 'min'");
+    }
 }

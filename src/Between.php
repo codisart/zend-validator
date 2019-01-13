@@ -77,17 +77,7 @@ class Between extends AbstractValidator
             $options = ArrayUtils::iteratorToArray($options);
         }
         if (! is_array($options)) {
-            $options = func_get_args();
-            $temp['min'] = array_shift($options);
-            if (! empty($options)) {
-                $temp['max'] = array_shift($options);
-            }
-
-            if (! empty($options)) {
-                $temp['inclusive'] = array_shift($options);
-            }
-
-            $options = $temp;
+            $options = $this->setOptions(...func_get_args());
         }
 
         if (! array_key_exists('min', $options) || ! array_key_exists('max', $options)) {
@@ -109,6 +99,15 @@ class Between extends AbstractValidator
         }
 
         parent::__construct($options);
+    }
+
+    private function setOptions($min = null, $max = null, $inclusive = false)
+    {
+        return [
+            'min' => $min,
+            'max' => $max,
+            'inclusive' => $inclusive,
+        ];
     }
 
     /**
